@@ -1,0 +1,22 @@
+.container {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+
+div.col-md-3,
+div.col-md-4,
+div.col-md-5,
+div.col-md-6,
+div.col-md-7,
+select {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
