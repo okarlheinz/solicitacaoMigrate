@@ -6,8 +6,7 @@ function UploadComponent({ onUpload }) {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append("file", fileInput.files[0]);  // 'file' é o nome do campo conforme configurado no multer
-    
+    formData.append("file", file);
 
     try {
       const response = await fetch(
