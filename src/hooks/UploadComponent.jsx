@@ -10,7 +10,7 @@ function UploadComponent({ onUpload }) {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/upload",
+        "/api/upload",
         {
           method: "POST",
           body: formData,
