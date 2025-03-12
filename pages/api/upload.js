@@ -1,33 +1,53 @@
-// /pages/api/upload.js
-
 import multer from "multer";
+import FTP from "ftp";
 import path from "path";
+import cors from "cors";
 
-// Definindo a pasta onde os arquivos serão temporariamente armazenados
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+// Configuração do multer para lidar com upload de arquivos
+const upload = multer();
 
+// Configuração do FTP
+const ftpConfig = {
+  host: "ftp.mariasmello.com.br",
+  user: "implantacao@cdsimplantacao.com.br",
+  password: "dificil!@#",
+};
+
+// Função que será executada na API
 export default function handler(req, res) {
+  // Habilitando CORS
+  cors()(req, res, () => {});
+
   if (req.method === "POST") {
-    // Usando o multer para lidar com o arquivo enviado
+    // Middleware do multer para processar o arquivo enviado
     upload.single("file")(req, res, (err) => {
       if (err) {
-        return res.status(500).json({ error: "Erro ao processar o arquivo" });
+        return res.status(400).json({ message: "Erro ao processar o arquivo." });
       }
 
       if (!req.file) {
-        return res.status(400).json({ error: "Nenhum arquivo foi enviado" });
+        return res.status(400).json({ message: "Nenhum arquivo enviado." });
       }
 
-      // Aqui você pode processar o arquivo ou realizar qualquer outra operação
-      // Por exemplo, salvar no FTP ou no sistema de arquivos
+      const fileName = req.file.originalname;
+      const fileExtension = path.extname(fileName);
 
-      return res.status(200).json({
-        message: "Arquivo recebido com sucesso!",
-        fileName: req.file.originalname,
+      const client = new FTP();
+      client.on("ready", () => {
+        client.put(req.file.buffer, `/migrate/${fileName}`, (err) => {
+          if (err) {
+            client.end();
+            return res.status(500).json({ message: "Erro ao enviar o arquivo." });
+          }
+          client.end();
+          const fileUrl = `https://cdsimplantacao.com.br/migrate/${fileName}`;
+          res.status(200).json({ fileUrl });
+        });
       });
+
+      client.connect(ftpConfig);
     });
   } else {
-    return res.status(405).json({ error: "Método não permitido." });
+    res.status(405).json({ message: "Método não permitido." });
   }
 }

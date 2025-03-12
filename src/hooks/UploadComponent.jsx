@@ -6,11 +6,12 @@ function UploadComponent({ onUpload }) {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file", fileInput.files[0]);  // 'file' é o nome do campo conforme configurado no multer
+    
 
     try {
       const response = await fetch(
-        "/api/upload",
+        "https://solicitarmigrate.vercel.app/api/upload",
         {
           method: "POST",
           body: formData,
