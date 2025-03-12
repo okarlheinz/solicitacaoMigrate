@@ -2,6 +2,11 @@ table {
     width: 100%;
     border-collapse: collapse;
   }
+
+  .link {
+    color: white; /* Cor do texto branco */
+    text-decoration: none; /* Remover sublinhado do link */
+  }
   
 
 

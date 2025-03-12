@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { db } from "../../utils/firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
@@ -112,6 +113,7 @@ const ListaEspera = () => {
   return (
     <div className="container mt-5">
       <h2>Lista de Solicitações</h2>
+
       <input
         type="text"
         placeholder="Buscar por Nome Fantasia ou CNPJ"
@@ -135,11 +137,12 @@ const ListaEspera = () => {
           Concluídos
         </button>
         <button
-          className={`btn ${statusFilter === "todos" ? "btn-secondary" : "btn-outline-secondary"}`}
+          className={`btn ${statusFilter === "todos" ? "btn-secondary" : "btn-outline-secondary"} me-2`}
           onClick={() => setStatusFilter("todos")}
         >
           Todos
         </button>
+        <button className="btn btn-dark"><Link to="/" className="link">Solicitar</Link></button>
       </div>
 
       <table className="table table-hover">
@@ -179,7 +182,9 @@ const ListaEspera = () => {
             </tr>
           ))}
         </tbody>
+
       </table>
+        <button className="btn btn-dark"><Link to="/" className="link">Solicitar</Link></button>
     </div>
   );
 };
