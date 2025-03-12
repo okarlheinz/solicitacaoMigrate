@@ -128,29 +128,29 @@ const Formulario = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (!formData.cnpj || 
-    //   !formData.nomefantasia || 
-    //   !formData.senha || 
-    //   !formData.razaosocial || 
-    //   !formData.cep ||
-    //   !formData.logradouro ||
-    //   !formData.numero ||
-    //   !formData.bairro ||
-    //   !formData.cidade ||
-    //   !formData.estado ||
-    //   !formData.idtoken ||
-    //   !formData.csc ||
-    //   !formData.senha
-    // ) 
-    // {
-    //   Swal.fire({
-    //     icon: "error",
-    //     title: "Campos obrigatórios não preenchidos",
-    //     text: "Por favor, preencha todos os campos obrigatórios antes de enviar.",
-    //     timer: 2500,
-    //   });
-    //   return; // Não prosseguir com o envio
-    // }
+    if (!formData.cnpj || 
+      !formData.nomefantasia || 
+      !formData.senha || 
+      !formData.razaosocial || 
+      !formData.cep ||
+      !formData.logradouro ||
+      !formData.numero ||
+      !formData.bairro ||
+      !formData.cidade ||
+      !formData.estado ||
+      !formData.idtoken ||
+      !formData.csc ||
+      !formData.senha
+    ) 
+    {
+      Swal.fire({
+        icon: "error",
+        title: "Campos obrigatórios não preenchidos",
+        text: "Por favor, preencha todos os campos obrigatórios antes de enviar.",
+        timer: 2500,
+      });
+      return; // Não prosseguir com o envio
+    }
     saveFormData(); // Garante que o dado será salvo depois que o arquivo for enviado
   };
 

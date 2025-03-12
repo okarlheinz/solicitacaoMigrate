@@ -32,7 +32,7 @@ export default function App() {
           <Route path="/" element={user ? <Formulario user={user} /> : <Navigate to="/login" />} />
           <Route path="/lista-espera" element={user ? <ListaEspera user={user} /> : <Navigate to="/login" />} />
           <Route path="/editar-lista" element={user ? <EditarLista user={user} /> : <Navigate to="/login" />} />
-          <Route path="*" element={<Navigate to="/login" />} />
+
         </Routes>
       </Router>
     </PrimeReactProvider>
