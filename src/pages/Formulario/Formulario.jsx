@@ -128,20 +128,21 @@ const Formulario = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.cnpj || 
-      !formData.nomefantasia || 
-      !formData.senha || 
-      !formData.razaosocial || 
-      !formData.cep ||
-      !formData.logradouro ||
-      !formData.numero ||
-      !formData.bairro ||
-      !formData.cidade ||
-      !formData.estado ||
-      !formData.idtoken ||
-      !formData.csc ||
-      !formData.senha
-    ) {
+    // if (!formData.cnpj || 
+    //   !formData.nomefantasia || 
+    //   !formData.senha || 
+    //   !formData.razaosocial || 
+    //   !formData.cep ||
+    //   !formData.logradouro ||
+    //   !formData.numero ||
+    //   !formData.bairro ||
+    //   !formData.cidade ||
+    //   !formData.estado ||
+    //   !formData.idtoken ||
+    //   !formData.csc ||
+    //   !formData.senha
+    // ) 
+    {
       Swal.fire({
         icon: "error",
         title: "Campos obrigatórios não preenchidos",
