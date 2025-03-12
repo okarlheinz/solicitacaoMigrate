@@ -81,7 +81,10 @@ const Formulario = () => {
       const updatedFormData = { ...formData, caminhoCertificado: fileUrl };
 
       // Adiciona os dados no Firestore na coleção "solicitacoes"
-      const docRef = await addDoc(collection(db, "solicitacoes"), updatedFormData);
+      const docRef = await addDoc(
+        collection(db, "solicitacoes"),
+        updatedFormData
+      );
       console.log("Documento escrito com ID: ", docRef.id);
 
       Swal.fire({
@@ -97,20 +100,23 @@ const Formulario = () => {
           // Enviar via WhatsApp
           const telefone = "5581992957941";
           const mensagem = `Olá, te enviei uma solicitação de migrate para o cliente ${formData.nomefantasia} com CNPJ ${formData.cnpj}. O certificado está em ${fileUrl}`;
-      
-          let url = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
+
+          let url = `https://wa.me/${telefone}?text=${encodeURIComponent(
+            mensagem
+          )}`;
           window.open(url, "_blank");
         } else if (result.isDenied) {
           // Enviar via E-mail
           const assunto = "Solicitação de Migrate";
           const corpoEmail = `Olá, te enviei uma solicitação de migrate para o cliente ${formData.nomefantasia} com CNPJ ${formData.cnpj}. O certificado está em ${fileUrl}`;
-          
+
           const email = "destinatario@exemplo.com"; // Substitua pelo e-mail de destino
-          let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpoEmail)}`;
+          let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(
+            assunto
+          )}&body=${encodeURIComponent(corpoEmail)}`;
           window.location.href = mailtoLink;
         }
       });
-      
 
       // Resetando os campos do formulário após o envio
       resetFormData();
@@ -128,29 +134,29 @@ const Formulario = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.cnpj || 
-      !formData.nomefantasia || 
-      !formData.senha || 
-      !formData.razaosocial || 
-      !formData.cep ||
-      !formData.logradouro ||
-      !formData.numero ||
-      !formData.bairro ||
-      !formData.cidade ||
-      !formData.estado ||
-      !formData.idtoken ||
-      !formData.csc ||
-      !formData.senha
-    ) 
-    {
-      Swal.fire({
-        icon: "error",
-        title: "Campos obrigatórios não preenchidos",
-        text: "Por favor, preencha todos os campos obrigatórios antes de enviar.",
-        timer: 2500,
-      });
-      return; // Não prosseguir com o envio
-    }
+    // if (!formData.cnpj ||
+    //   !formData.nomefantasia ||
+    //   !formData.senha ||
+    //   !formData.razaosocial ||
+    //   !formData.cep ||
+    //   !formData.logradouro ||
+    //   !formData.numero ||
+    //   !formData.bairro ||
+    //   !formData.cidade ||
+    //   !formData.estado ||
+    //   !formData.idtoken ||
+    //   !formData.csc ||
+    //   !formData.senha
+    // )
+    // {
+    //   Swal.fire({
+    //     icon: "error",
+    //     title: "Campos obrigatórios não preenchidos",
+    //     text: "Por favor, preencha todos os campos obrigatórios antes de enviar.",
+    //     timer: 2500,
+    //   });
+    //   return; // Não prosseguir com o envio
+    // }
     saveFormData(); // Garante que o dado será salvo depois que o arquivo for enviado
   };
 
