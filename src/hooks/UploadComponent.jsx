@@ -7,7 +7,7 @@ function UploadComponent({ onUpload }) {
 
     const formData = new FormData();
     formData.append("file", file);
-
+//teste
     try {
       const response = await fetch(
         "https://solicitarmigrate.vercel.app/upload",
