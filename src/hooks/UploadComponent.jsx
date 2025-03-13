@@ -10,7 +10,7 @@ function UploadComponent({ onUpload }) {
 
     try {
       const response = await fetch(
-        "https://solicitarmigrate.vercel.app/api/upload",
+        "https://solicitarmigrate.vercel.app/upload",
         {
           method: "POST",
           body: formData,
