@@ -21,23 +21,26 @@ const ListaEspera = () => {
   // Função para buscar todas as solicitações do Firestore
   const fetchSolicitacoes = async () => {
     if (user) {
-      // Consulta filtrada pelo UID do usuário logado
-      const q = query(
+      let q = query(
         collection(db, "solicitacoes"),
-        where("solicitante", "==", user.uid), // Filtra pelo ID do usuário logado
-        where("status", "==", statusFilter) // Filtra pelo status, aberto ou outro
+        where("solicitante", "==", user.uid)
       );
-
+  
+      if (statusFilter !== "todos") {
+        q = query(q, where("status", "==", statusFilter));
+      }
+  
       const querySnapshot = await getDocs(q);
       const solicitacoesList = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-
+  
       solicitacoesList.sort((a, b) => new Date(b.data) - new Date(a.data));
       setSolicitacoes(solicitacoesList);
     }
   };
+  
 
   useEffect(() => {
     fetchSolicitacoes();
