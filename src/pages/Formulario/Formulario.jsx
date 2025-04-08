@@ -134,7 +134,8 @@ const Formulario = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.cnpj ||
+    if (
+      !formData.cnpj ||
       !formData.nomefantasia ||
       !formData.senha ||
       !formData.razaosocial ||
@@ -147,8 +148,7 @@ const Formulario = () => {
       !formData.idtoken ||
       !formData.csc ||
       !formData.senha
-    )
-    {
+    ) {
       Swal.fire({
         icon: "error",
         title: "Campos obrigatórios não preenchidos",
@@ -229,10 +229,13 @@ const Formulario = () => {
               className="form-control"
               type="text"
               id="cep"
-              placeholder="Ex: 12345-678"
-              maxLength="10"
+              placeholder="Ex: 12345678"
+              maxLength="8" // Limita ao padrão do CEP brasileiro
               value={formData.cep}
-              onChange={handleChange}
+              onChange={(e) => {
+                const onlyNumbers = e.target.value.replace(/\D/g, "");
+                setFormData((prev) => ({ ...prev, cep: onlyNumbers }));
+              }}
             />
           </div>
           <div className="col-md-6">
@@ -381,14 +384,17 @@ const Formulario = () => {
           </div>
           <div className="col-md-3">
             <label htmlFor="fone">Fone:</label>
-            <InputMask
+            <input
               className="form-control"
               type="text"
               id="fone"
               value={formData.fone}
-              onChange={handleChange}
-              mask="(99)99999-9999"
-              placeholder="(81)98888-8888"
+              onChange={(e) => {
+                const onlyNumbers = e.target.value.replace(/\D/g, "");
+                setFormData((prev) => ({ ...prev, fone: onlyNumbers }));
+              }}
+              placeholder="Digite apenas números (ex: 81988888888)"
+              maxLength={11} // opcional, para limitar a 11 dígitos
             />
           </div>
           <div className="col-md-7">
