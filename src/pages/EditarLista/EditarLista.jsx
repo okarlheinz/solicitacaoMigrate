@@ -11,6 +11,9 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 const EditarLista = () => {
   const [solicitacoes, setSolicitacoes] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("aberto");
+  const [filteredSolicitacoes, setFilteredSolicitacoes] = useState([]);
+
 
   // MODAL
   const [show, setShow] = useState(false);
@@ -37,20 +40,17 @@ const EditarLista = () => {
 
   const handleCopy = (valor) => {
     if (valor) {
-      navigator.clipboard.writeText(valor)
-      .then(() => {
-        
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Copiado para a área de transferencia!",
-                timer: 1000,
-              })
+      navigator.clipboard.writeText(valor).then(() => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Copiado para a área de transferencia!",
+          timer: 1000,
+        });
         // alert("Copiado para a área de transferência!");
       });
     }
   };
-  
 
   // FIM MODAL
 
@@ -66,6 +66,16 @@ const EditarLista = () => {
     };
     fetchSolicitacoes();
   }, []);
+
+  useEffect(() => {
+    if (statusFilter === "todos") {
+      setFilteredSolicitacoes(solicitacoes);
+    } else {
+      setFilteredSolicitacoes(
+        solicitacoes.filter((item) => item.status === statusFilter)
+      );
+    }
+  }, [statusFilter, solicitacoes]);
 
   const handleDownloadCertificado = (solicitacao) => {
     if (solicitacao.caminhoCertificado) {
@@ -144,6 +154,33 @@ const EditarLista = () => {
         className="form-control mb-3"
       />
 
+      <div className="mb-3">
+        <button
+          className={`btn ${
+            statusFilter === "aberto" ? "btn-primary" : "btn-outline-primary"
+          } me-2`}
+          onClick={() => setStatusFilter("aberto")}
+        >
+          Abertos
+        </button>
+        <button
+          className={`btn ${
+            statusFilter === "concluido" ? "btn-success" : "btn-outline-success"
+          } me-2`}
+          onClick={() => setStatusFilter("concluido")}
+        >
+          Concluidos
+        </button>
+        <button
+          className={`btn ${
+            statusFilter === "todos" ? "btn-secondary" : "btn-outline-secondary"
+          } me-2`}
+          onClick={() => setStatusFilter("todos")}
+        >
+          Todos
+        </button>
+      </div>
+
       <table className="table table-hover">
         <thead>
           <tr>
@@ -155,7 +192,7 @@ const EditarLista = () => {
           </tr>
         </thead>
         <tbody>
-          {solicitacoes
+          {filteredSolicitacoes
             .filter(
               (solicitacao) =>
                 solicitacao.nomefantasia
